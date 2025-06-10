@@ -4,32 +4,48 @@ from dotenv import load_dotenv
 
 # Load environment variables first
 load_dotenv()
-from src.services.chat_gpt_request_service import ChatGPTRequestService
-from logger_config import logger_bind_contextvars, logger
+from src.config.config import is_debug
+from src.config.logger_config import logger_bind_contextvars, logger
 
 import flask
 import werkzeug
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify
 from flask_cors import CORS
+
+from src.blueprints.questions_blueprint import questions_blueprint
 
 logger_bind_contextvars()
 logger.info('Starting application')
 
-service = ChatGPTRequestService('''
-    CREATE TABLE orders(
-        id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-        date DATE NOT NULL,
-        week_day VARCHAR(12) NOT NULL,
-        hour TIME NOT NULL,
-        ticket_number VARCHAR(25) NOT NULL,
-        waiter INT NOT NULL DEFAULT 0,
-        product_name VARCHAR(120) NOT NULL,
-        quantity INT NOT NULL,
-        unitary_price NUMERIC(14,2) NOT NULL,
-        total NUMERIC(14,2) NOT NULL
-    );
 
-''')
+app = Flask(__name__)
 
-response = service.request_query('Get me the top 5 products that historically got us bigger revenue')
-logger.info(response.query)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True, allow_headers="*", methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+
+app.register_blueprint(questions_blueprint, url_prefix='/questions')
+
+@app.before_request
+def log_request_info():
+    logger_bind_contextvars()
+    logger.info(f"{request.method} {request.path}")
+
+@app.errorhandler(Exception)
+def error_handler(e: werkzeug.exceptions):
+    logger.error(e)
+    
+    if is_debug():
+        import traceback
+        logger.error(traceback.format_exc())
+
+    return jsonify(success=False, message=str(e))
+
+@app.route("/")
+def get_index():
+    return {
+        'success': True,
+        'message': 'Up and running!'
+    }, 200
+
+
+app.run(host='0.0.0.0', port=5000)
+

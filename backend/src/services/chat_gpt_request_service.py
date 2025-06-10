@@ -5,7 +5,7 @@ from openai import OpenAI
 from src.models.request_query_response import RequestQueryResponse
 from src.services.ai_request_service import AiRequestService
 
-from logger_config import logger
+from src.config.logger_config import logger
 
 class ChatGPTRequestService(AiRequestService):
     def __init__(self, database_structure_string: str):
@@ -25,17 +25,22 @@ class ChatGPTRequestService(AiRequestService):
 
 
     def request_query(self, question: str):
-
+        model = 'gpt-4o'
+        logger.info(f'Making request to chat-gpt model {model}')
         response = self.client.chat.completions.create(
-            model="gpt-4o",  # or "gpt-3.5-turbo"
+            model=model,  # or "gpt-3.5-turbo"
             messages=[
                 { "role": "system", "content": self.get_system_prompt() },
                 { "role": "user", "content": f"Question: {question}"}
             ]
         )
-        
+        logger.info(f'Request from question {question} to chat-gpt model {model} was succesful.')
+
         response_content = response.choices[0].message.content.strip()
-        logger.info(response_content)
         response_content = json.loads(response_content)
+
+        if not response_content['query']:
+            raise Exception(f'The question did not return a valid query')
+        
 
         return RequestQueryResponse(response_content['response_display_type'], response_content['query'])

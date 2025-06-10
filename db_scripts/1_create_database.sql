@@ -1,5 +1,3 @@
-CREATE DATABASE nivii_challenge;
-
 USE nivii_challenge;
 
 CREATE TABLE orders(

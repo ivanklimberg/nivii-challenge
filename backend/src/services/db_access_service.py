@@ -2,7 +2,7 @@ import os
 import mysql.connector
 
 
-class DbAccessServices():
+class DbAccessService():
     def __init__(self):
         self.db_user = os.environ['DB_USER']
         self.db_password = os.environ['DB_PASSWORD']
