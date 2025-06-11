@@ -13,6 +13,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 from src.blueprints.questions_blueprint import questions_blueprint
+from src.blueprints.questions_history_blueprint import questions_history_blueprint
+
 
 logger_bind_contextvars()
 logger.info('Starting application')
@@ -23,6 +25,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True, allow_headers="*", methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 
 app.register_blueprint(questions_blueprint, url_prefix='/questions')
+app.register_blueprint(questions_history_blueprint, url_prefix='/questions/history')
 
 @app.before_request
 def log_request_info():

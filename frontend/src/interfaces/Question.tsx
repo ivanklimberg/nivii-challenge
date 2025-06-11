@@ -1,8 +1,12 @@
 export type ChartType = "pie" | "bar" | "line" | "table" | "none";
 
-export interface PostQuestionResponse {
+interface BasicAPIResponse {
   success: boolean;
   message?: string;
+}
+
+export interface PostQuestionResponse extends BasicAPIResponse {
+  description?: string;
   display_type?: ChartType;
   data: any;
   config: ChartConfig;

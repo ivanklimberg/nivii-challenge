@@ -85,7 +85,7 @@ function App() {
             <Col
               md={{ span: 10, offset: 7 }}
               xs={24}
-              style={{ marginTop: 30, marginBottom: 30 }}
+              style={{ marginTop: 30, marginBottom: 10 }}
             >
               <QuestionForm
                 question={question}
@@ -100,7 +100,15 @@ function App() {
               {loading && <Loader />}
 
               {!loading && responseData && responseData.success && (
-                <ChartDataMapper questionResponse={responseData} />
+                <>
+                  <div
+                    style={{ marginBottom: 20, textAlign: "left" }}
+                    dangerouslySetInnerHTML={{
+                      __html: responseData.description!,
+                    }}
+                  />
+                  <ChartDataMapper questionResponse={responseData} />
+                </>
               )}
             </Col>
           </Row>

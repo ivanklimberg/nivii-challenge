@@ -19,13 +19,31 @@ class DbAccessService():
             database=self.database)
         
         with connection.cursor() as cursor:
-            cursor.execute(query)
-
-            results = self.__cursor_to_dict_list(cursor)
-
-        connection.close()
+            try:
+                cursor.execute(query)
+                results = self.__cursor_to_dict_list(cursor)
+            finally:
+                cursor.close()
+                connection.close()
 
         return results
+    
+    def run_non_query(self, non_query: str, params=None):
+        connection = mysql.connector.connect(
+            user=self.db_user, 
+            password=self.db_password, 
+            host=self.db_host,
+            port=self.db_port,
+            database=self.database)
+        
+        with connection.cursor() as cursor:
+            try:
+                cursor.execute(non_query, params or ())
+                connection.commit()
+            finally:
+                cursor.close()
+                connection.close()
+
 
 
     def __cursor_to_dict_list(self, cursor):

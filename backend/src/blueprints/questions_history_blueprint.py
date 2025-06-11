@@ -1,0 +1,21 @@
+from flask import Blueprint, request
+
+from src.services.question_history_repository import QuestionHistoryRepository
+
+questions_history_blueprint = Blueprint('questions_history_blueprint', __name__)
+questions_history_repository = QuestionHistoryRepository()
+
+
+@questions_history_blueprint.route("", methods=["GET"])
+def post_question():
+    page = request.args.get('page', 1)
+    page_size = request.args.get('page_size', 20)
+
+    question_history_data = questions_history_repository.get_question_history(page, page_size)
+
+    return {
+        'success': True,
+        'data': question_history_data,
+        'page': page,
+        'page_size': page_size
+    }
