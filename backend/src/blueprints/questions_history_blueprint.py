@@ -7,7 +7,7 @@ questions_history_repository = QuestionHistoryRepository()
 
 
 @questions_history_blueprint.route("", methods=["GET"])
-def post_question():
+def get_question_history():
     page = request.args.get('page', 1)
     page_size = request.args.get('page_size', 20)
 
@@ -18,4 +18,20 @@ def post_question():
         'data': question_history_data,
         'page': page,
         'page_size': page_size
+    }
+
+@questions_history_blueprint.route("<int:id>", methods=["GET"])
+def get_question_history_by_id(id: int):
+
+    question_history = questions_history_repository.get_question_history_by_id(id)
+
+    if not question_history:
+        return {
+            'success': False,
+            'message': 'Not found'
+        }, 404
+
+    return {
+        'success': True,
+        'data': question_history,
     }

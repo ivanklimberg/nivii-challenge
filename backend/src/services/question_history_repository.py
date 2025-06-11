@@ -21,7 +21,11 @@ class QuestionHistoryRepository():
         start = (page - 1) * page_size
         query = f"""
             SELECT 
-                id, question, succesful_response, json_response, description, chart_type, created_at 
+                id, 
+                question, 
+                succesful_response, 
+                chart_type, 
+                created_at 
             FROM question_history 
             ORDER BY created_at DESC
             LIMIT {page_size} OFFSET {start}
@@ -30,3 +34,25 @@ class QuestionHistoryRepository():
         return_data = self.db_access_service.run_query(query)
 
         return return_data
+    
+    def get_question_history_by_id(self, id: int):
+
+        query = f"""
+            SELECT 
+                id, 
+                question, 
+                succesful_response, 
+                json_response, 
+                description, 
+                chart_type, 
+                created_at 
+            FROM question_history 
+            WHERE id = {id}
+        """
+
+        return_data = self.db_access_service.run_query(query)
+
+        if not any(return_data):
+            return
+
+        return return_data[0]

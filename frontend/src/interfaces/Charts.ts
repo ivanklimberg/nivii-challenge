@@ -1,17 +1,5 @@
 export type ChartType = "pie" | "bar" | "line" | "table" | "none";
 
-interface BasicAPIResponse {
-  success: boolean;
-  message?: string;
-}
-
-export interface PostQuestionResponse extends BasicAPIResponse {
-  description?: string;
-  display_type?: ChartType;
-  data: any;
-  config: ChartConfig;
-}
-
 export interface ChartData {
   labels: string[];
   datasets: {
