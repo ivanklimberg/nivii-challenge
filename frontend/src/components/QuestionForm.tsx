@@ -30,6 +30,7 @@ const QuestionForm = ({
         <Col span={5}>
           <Form.Item>
             <Button
+              htmlType="submit"
               style={{ width: "100%" }}
               type="primary"
               disabled={disabled}

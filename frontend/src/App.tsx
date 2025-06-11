@@ -1,24 +1,53 @@
 import { useState } from "react";
+import { Layout, ConfigProvider, Row, Col } from "antd";
 import {
-  Layout,
-  ConfigProvider,
-  Row,
-  Col,
-  Form,
-  Typography,
-  Input,
-  Button,
-} from "antd";
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  PointElement,
+  LineElement,
+} from "chart.js";
 
 import Logo from "./assets/nivii_logo.webp";
 import QuestionForm from "./components/QuestionForm";
+import PageTitle from "./components/PageTitle";
+import { postQuestions } from "./api-consumer/questions";
+import type { PostQuestionResponse } from "./interfaces/Question";
+import Loader from "./components/Loader";
+import ChartDataMapper from "./components/ChartDataMapper";
+
+ChartJS.register(
+  ArcElement,
+  BarElement,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale
+);
 
 const { Header, Content } = Layout;
-const { Title, Text } = Typography;
 
 function App() {
   const [loading, setLoading] = useState(false);
   const [question, setQuestion] = useState("");
+  const [responseData, setResponseData] = useState<PostQuestionResponse>();
+
+  const submitQuestion = () => {
+    setLoading(true);
+    postQuestions(question)
+      .then((response) => {
+        setResponseData(response);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   return (
     <ConfigProvider
@@ -46,12 +75,10 @@ function App() {
         <Content style={{ textAlign: "center", padding: 10 }}>
           <Row>
             <Col span={24}>
-              {/*  CREAR ANIMACION PARA EL TITULO COMO TIPEANDO */}
-              <Title level={1}>Your data speaks — just ask.</Title>
-              <Text type="secondary">
-                Make questions regarding your data and get the results in a user
-                friendly format
-              </Text>
+              <PageTitle
+                title="Your data speaks — just ask."
+                subTitle="Make questions regarding your data and get data-oriented answers in a user friendly format"
+              />
             </Col>
           </Row>
           <Row>
@@ -64,8 +91,17 @@ function App() {
                 question={question}
                 onChangeQuestion={setQuestion}
                 disabled={loading}
-                onSubmit={() => {}}
+                onSubmit={submitQuestion}
               />
+            </Col>
+          </Row>
+          <Row>
+            <Col md={{ span: 12, offset: 6 }} xs={24}>
+              {loading && <Loader />}
+
+              {!loading && responseData && responseData.success && (
+                <ChartDataMapper questionResponse={responseData} />
+              )}
             </Col>
           </Row>
         </Content>

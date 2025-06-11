@@ -25,10 +25,14 @@ def post_question():
 
     response_query = ai_request_service.request_query(data['question'])
 
-    result_data = db_access_service.run_query(response_query.query)
+    result_data = db_access_service.run_query(response_query['query'])
+
+    # if response_query.response_display_type in ['pie','bar','line']:
+    #     result_data = ai_request_service.request_data_formatting(result_data, response_query.response_display_type)
 
     return {
         'success': True,
-        'display_type': response_query.response_display_type,
+        'display_type': response_query['response_display_type'],
+        'config': response_query['config'],
         'data': result_data
     }
