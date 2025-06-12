@@ -48,6 +48,34 @@ This will:
 
 ## Design decisions
 
+### Backend
+
+I chose to build a simple 2 layered API using **Flask** with a blueprints directory that holds the resposability of managing status codes, basic validation of models and gluing everything related to the business logic.
+Then a services directory managing everything that has to do with business logic and database logic. This was done to maintain the code simple.
+
+In case the code gets more complex I would split the database logic into a separate repositories folder so it can be consumed by the services above, changing it to a 3 layer API.
+
+I also implemented the following items to help debugging and ease maintenance:
+
+- An abstract class, used as an interface, called `ai_request_service.py` to simplify changing the AI provider below. _The same should be done with the `db_access_service.py` in case the app gets more complex._
+- Unified response format with `success` on every response to help the front manage responses accurately.
+- Unified error catching on main using `@app.errorhandler(Exception)` to prevent unnecesary try...except on the code.
+- Unified log for all requests on main using `@app.before_request`
+- Enriched log with `EXECUTION_ID` to help follow up specific requests and error traces.
+- Specific `DEBUG` logs with extra information to help debugging in case it's needed.
+
+### Frontend
+
+For the front app I chose React TS and Vite, with React Router for routing and Axios for requests. The division of responsibilities in here is:
+
+- `api-consumer`: Directory containing everything related to API requests, with a baseAPI holding the configuration to simplify making requests.
+- `helpers`: Static tools useful for implementation.
+- `components`: Reusable components and Complex ones to encapsulate behavior.
+- `interfaces`: Interfaces and Types to ensure the proper use of `Typescript`
+- `routes`: Main components representing each one a differente page/route.
+
+The app uses [Ant Design](https://ant.design/) as a component library to keep a clean and focused look, the idea is to keep the user focused on what matters on each page, without too many components distracting him/her.
+
 ## How would I scale it
 
 ### Code
@@ -64,6 +92,8 @@ This will:
   1. The API will receive a request for a prompt, it will save it into the database , send a message to the queue and return the main identifier for that process.
   2. The Suscriber app, listening to that queue, will receive the message, execute the prompt and the query and update it into the DB.
   3. If the user is in the page of that request, the Front App will request every _N_ time news about that specific and once it's updated it will return the requested data to the user.
+
+- For large datasets I would monitor the queries used, specifically the columns for the joins, group bys and where clauses, to add composite indexes.
 
 ### Infrastructure
 
