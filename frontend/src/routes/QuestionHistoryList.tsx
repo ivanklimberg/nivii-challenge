@@ -4,7 +4,11 @@ import type { ListQuestionHistory } from "../interfaces/Question";
 import PageTitle from "../components/PageTitle";
 import { Col, List, Row, Skeleton, Typography } from "antd";
 import { getQuestionHistoryList } from "../api-consumer/questions";
-import { RightOutlined } from "@ant-design/icons";
+import {
+  CheckCircleTwoTone,
+  CloseCircleTwoTone,
+  RightOutlined,
+} from "@ant-design/icons";
 import { displayCreatedAt } from "../helpers/dateHelper";
 
 const { Text } = Typography;
@@ -75,12 +79,14 @@ const QuestionHistoryList = () => {
                         <>
                           {item.succesful_response > 0 && (
                             <Text type="success" strong>
-                              Succesful
+                              Succesful{" "}
+                              <CheckCircleTwoTone twoToneColor="#52c41a" />
                             </Text>
                           )}
                           {item.succesful_response == 0 && (
                             <Text type="danger" strong>
-                              Failed
+                              Failed{" "}
+                              <CloseCircleTwoTone twoToneColor="#ff4d4f" />
                             </Text>
                           )}{" "}
                           <br />

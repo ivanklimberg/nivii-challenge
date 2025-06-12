@@ -49,7 +49,11 @@ const QuestionHistoryItem = () => {
 
   return (
     <div>
-      {loading && <Loader showText />}
+      {loading && (
+        <div style={{ textAlign: "center" }}>
+          <Loader showText />
+        </div>
+      )}
       {!loading && (
         <>
           <Row>

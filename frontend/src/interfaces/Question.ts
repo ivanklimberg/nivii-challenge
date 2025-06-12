@@ -1,5 +1,4 @@
-import type { ChartType } from "chart.js";
-import type { ChartConfig } from "./Charts";
+import type { ChartConfig, ChartType } from "./Charts";
 
 interface BasicAPIResponse {
   success: boolean;

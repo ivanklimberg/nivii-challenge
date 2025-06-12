@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Col, Row, Typography } from "antd";
 import { useState } from "react";
 import ChartDataMapper from "../components/ChartDataMapper";
 import Loader from "../components/Loader";
@@ -7,9 +7,12 @@ import PageTitle from "../components/PageTitle";
 import { postQuestions } from "../api-consumer/questions";
 import type { PostQuestionResponse } from "../interfaces/Question";
 
+const { Text } = Typography;
+
 const Home = () => {
   const [loading, setLoading] = useState(false);
   const [question, setQuestion] = useState("");
+  const [errorText, setErrorText] = useState("");
   const [responseData, setResponseData] = useState<PostQuestionResponse>();
 
   const submitQuestion = () => {
@@ -17,6 +20,11 @@ const Home = () => {
     postQuestions(question)
       .then((response) => {
         setResponseData(response);
+      })
+      .catch(() => {
+        setErrorText(
+          "Sorry! This is embarrasing. The server is not working properly, please try again later."
+        );
       })
       .finally(() => {
         setLoading(false);
@@ -42,7 +50,11 @@ const Home = () => {
         >
           <QuestionForm
             question={question}
-            onChangeQuestion={setQuestion}
+            onChangeQuestion={(value) => {
+              setErrorText("");
+              setQuestion(value);
+            }}
+            onFocus={() => setErrorText("")}
             disabled={loading}
             onSubmit={submitQuestion}
           />
@@ -51,7 +63,21 @@ const Home = () => {
       <Row>
         <Col md={{ span: 12, offset: 6 }} xs={24}>
           {loading && <Loader />}
-
+          {errorText !== "" && (
+            <div style={{ paddingTop: 20, paddingBottom: 20 }}>
+              <Text type="danger">{errorText}</Text>
+            </div>
+          )}
+          {!loading && responseData && !responseData.success && (
+            <div style={{ paddingTop: 30, paddingBottom: 30 }}>
+              <Text type="danger">
+                Sorry! This is embarrasing. We couldn't understand what you were
+                asking.
+              </Text>{" "}
+              <br />
+              <Text strong>Please try with a different wording</Text>
+            </div>
+          )}
           {!loading && responseData && responseData.success && (
             <>
               <div

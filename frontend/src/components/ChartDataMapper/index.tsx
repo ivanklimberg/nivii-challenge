@@ -1,4 +1,3 @@
-import React from "react";
 import type { PostQuestionResponse } from "../../interfaces/Question";
 import { Bar, Pie, Line } from "react-chartjs-2";
 import type { ChartData } from "chart.js";

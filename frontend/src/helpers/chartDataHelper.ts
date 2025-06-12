@@ -1,5 +1,4 @@
-import type { ChartData } from "chart.js";
-import type { ChartConfig, ChartType } from "../interfaces/Question";
+import type { ChartConfig, ChartType } from "../interfaces/Charts";
 
 export const convertDataToChartInput = (
   data: any[],

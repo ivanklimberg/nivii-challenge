@@ -5,11 +5,13 @@ interface Props {
   question: string;
   onChangeQuestion: (value: string) => void;
   onSubmit: () => void;
+  onFocus?: () => void;
 }
 
 const QuestionForm = ({
   question,
   onChangeQuestion,
+  onFocus,
   onSubmit,
   disabled,
 }: Props) => {
@@ -21,6 +23,7 @@ const QuestionForm = ({
             <Input
               required
               value={question}
+              onFocus={onFocus}
               onChange={(e) => onChangeQuestion(e.currentTarget.value)}
               placeholder="Which are the top 5 most sold products for the last year?"
             />

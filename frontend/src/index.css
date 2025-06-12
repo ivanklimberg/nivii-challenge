@@ -1,3 +1,23 @@
 body {
   margin: 0;
 }
+
+.custom-menu .ant-menu-item {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 0; /* Optional: adjust spacing */
+}
+
+.custom-menu .ant-menu-item > span,
+.custom-menu .ant-menu-item a {
+  display: inline-block;
+  vertical-align: bottom;
+  line-height: normal;
+  padding-bottom: 7px; /* Adjust as needed */
+}
+
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none;
+  }
+}

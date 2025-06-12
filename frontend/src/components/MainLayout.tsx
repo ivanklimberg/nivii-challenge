@@ -1,8 +1,8 @@
 import { ConfigProvider, Layout } from "antd";
-import { Link, Outlet } from "react-router";
-import Logo from "../assets/nivii_logo.webp";
+import { Outlet } from "react-router";
+import MainHeader from "./MainHeader";
 
-const { Header, Content, Footer } = Layout;
+const { Content, Footer } = Layout;
 
 const MainLayout = () => (
   <ConfigProvider
@@ -19,17 +19,7 @@ const MainLayout = () => (
     }}
   >
     <Layout>
-      <Header
-        style={{
-          borderBottom: "solid 0.5px #D3D3D3",
-          paddingBottom: 12,
-          paddingTop: 12,
-        }}
-      >
-        <Link to="/">
-          <img src={Logo} style={{ height: "100%" }} />
-        </Link>
-      </Header>
+      <MainHeader />
       <Content style={{ padding: 10, paddingTop: 20, paddingBottom: 20 }}>
         <Outlet />
       </Content>
