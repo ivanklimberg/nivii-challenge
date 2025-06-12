@@ -38,7 +38,7 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'root': {
-        'level': os.environ.get('LOG_LEVEL', 'INFORMATION'),
+        'level': os.environ.get('LOG_LEVEL', 'INFO'),
         'handlers': ['console'],
     },
     'handlers': {

@@ -6,11 +6,17 @@ export const convertDataToChartInput = (
   config: ChartConfig
 ) => {
   if (!Array.isArray(data) || data.length === 0) {
-    throw new Error("Input data must be a non-empty array");
+    return {
+      labels: [],
+      dataset: [],
+    };
   }
 
   if (!config.x || !config.y) {
-    throw new Error("Unable to determine x and y keys");
+    return {
+      labels: [],
+      dataset: [],
+    };
   }
 
   // PIE / BAR
@@ -69,7 +75,10 @@ export const convertDataToChartInput = (
     };
   }
 
-  throw new Error(`Unsupported chart type: ${type}`);
+  return {
+    labels: [],
+    dataset: [],
+  };
 };
 
 const generateColors = (count: number) => {

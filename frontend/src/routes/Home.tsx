@@ -68,7 +68,8 @@ const Home = () => {
               <Text type="danger">{errorText}</Text>
             </div>
           )}
-          {!loading && responseData && !responseData.success && (
+
+          {Boolean(!loading && responseData && !responseData.success) && (
             <div style={{ paddingTop: 30, paddingBottom: 30 }}>
               <Text type="danger">
                 Sorry! This is embarrasing. We couldn't understand what you were
@@ -78,15 +79,37 @@ const Home = () => {
               <Text strong>Please try with a different wording</Text>
             </div>
           )}
-          {!loading && responseData && responseData.success && (
+
+          {Boolean(
+            !loading &&
+              responseData &&
+              responseData.data &&
+              responseData.data.length === 0
+          ) && (
+            <div style={{ paddingTop: 30, paddingBottom: 30 }}>
+              <Text strong>
+                Seems like your question did not output any results.
+              </Text>{" "}
+              <br />
+              <Text>Please try with another question.</Text>
+            </div>
+          )}
+
+          {Boolean(
+            !loading &&
+              responseData &&
+              responseData.success &&
+              responseData.data &&
+              responseData.data.length
+          ) && (
             <>
               <div
                 style={{ marginBottom: 20, textAlign: "left" }}
                 dangerouslySetInnerHTML={{
-                  __html: responseData.description!,
+                  __html: responseData!.description!,
                 }}
               />
-              <ChartDataMapper questionResponse={responseData} />
+              <ChartDataMapper questionResponse={responseData!} />
             </>
           )}
         </Col>

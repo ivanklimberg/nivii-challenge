@@ -9,13 +9,13 @@ the first one should be located on the root directory and should contain the fol
 
 ```
 DB_PASSWORD= #ROOT USER DATABASE PASSWORD
-DATABASE= #DATABASE NAME
+DATABASE=nivii_challenge #DATABASE NAME SHOULD BE nivii_challenge TO MATCH THE DATABASE SCRIPTS UNDER db_scripts
 ```
 
 the second one should be located on the `frontend` directory and should contain the following variables:
 
 ```
-VITE_API_BASE_URL=http://localhost:5000 # PORT WHERE THE BACKEND APP WILL RUN
+VITE_API_BASE_URL=http://localhost:5001 # PORT WHERE THE BACKEND APP WILL RUN
 ```
 
 the third and last one should be located on the `backend` directory and should contain the following variables:
@@ -29,7 +29,7 @@ DB_HOST=db # THE NAME OF CONTAINER WHERE THE DB IS LOCATED
 DB_PORT=3306 # KEEP THE PORT 3306, THIS ONE WILL BE THE EXPOSED ONE BY THE DB CONTAINER
 DB_USER= # THE ROOT DB USER
 DB_PASSWORD= # THE ROOT DB PASSWORD, SAME AS THE FIRST .ENV
-DATABASE= # THE DATABASE NAME, SAME AS THE FIRST .ENV
+DATABASE=nivii_challenge # THE DATABASE NAME, SAME AS THE FIRST .ENV
 
 LOG_LEVEL=INFO #CHANGE TO DEBUG FOR ADDITIONAL LOGS
 ```
@@ -44,7 +44,7 @@ This will:
 
 - Create a container for the DB using MySQL (v8.0), create a database, based on the `.env` variable `DATABASE` of the root directory, and run the scripts in order inside db_scripts
 - Create a container for the FrontEnd App (React v19.1.0 and Vite v6.3.5) and run it on the port `5173`
-- Create a container for the BackEnd App (Python v3.11.6 slim) and run it on the port `5000`
+- Create a container for the BackEnd App (Python v3.11.6 slim) and run it on the port `5001`
 
 ## Design decisions
 

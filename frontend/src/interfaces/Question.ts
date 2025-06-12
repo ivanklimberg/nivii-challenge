@@ -14,7 +14,7 @@ interface PagingResponse<T> extends BasicAPIResponse {
 export interface PostQuestionResponse extends BasicAPIResponse {
   description?: string;
   display_type?: ChartType;
-  data: any;
+  data: any[];
   config: ChartConfig;
 }
 
