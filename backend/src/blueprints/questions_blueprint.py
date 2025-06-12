@@ -37,7 +37,7 @@ def post_question():
 
     description = ai_request_service.request_data_description(result_data)
 
-    questions_history_repository.insert_question_history(data['question'], True, result_data, description, response_query['response_display_type'])
+    questions_history_repository.insert_question_history(data['question'], True, result_data, response_query['config'], description, response_query['response_display_type'])
 
     return {
         'success': True,

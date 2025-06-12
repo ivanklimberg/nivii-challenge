@@ -1,5 +1,4 @@
 import { Button, Col, Form, Input, Row } from "antd";
-import React from "react";
 
 interface Props {
   disabled: boolean;

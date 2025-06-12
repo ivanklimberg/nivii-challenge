@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import React, { useState } from "react";
+import { useState } from "react";
 import ChartDataMapper from "../components/ChartDataMapper";
 import Loader from "../components/Loader";
 import QuestionForm from "../components/QuestionForm";
@@ -24,10 +24,11 @@ const Home = () => {
   };
 
   return (
-    <>
+    <div style={{ textAlign: "center" }}>
       <Row>
         <Col span={24}>
           <PageTitle
+            typewriteEffect
             title="Your data speaks — just ask."
             subTitle="Make questions regarding your data and get data-oriented answers in a user friendly format"
           />
@@ -64,7 +65,7 @@ const Home = () => {
           )}
         </Col>
       </Row>
-    </>
+    </div>
   );
 };
 

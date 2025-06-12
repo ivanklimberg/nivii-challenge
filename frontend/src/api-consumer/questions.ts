@@ -1,4 +1,5 @@
 import type {
+  GetQuestionHistoryByIdResponse,
   GetQuestionHistoryResponse,
   PostQuestionResponse,
 } from "../interfaces/Question";
@@ -10,7 +11,7 @@ export const postQuestions = async (question: string) => {
   return result.data as PostQuestionResponse;
 };
 
-export const getQuestionHistory = async (
+export const getQuestionHistoryList = async (
   page: number = 1,
   pageSize: number = 20
 ) => {
@@ -19,4 +20,10 @@ export const getQuestionHistory = async (
   );
 
   return result.data as GetQuestionHistoryResponse;
+};
+
+export const getQuestionHistoryById = async (id: number) => {
+  const result = await baseAPI.get(`/questions/history/${id}`);
+
+  return result.data as GetQuestionHistoryByIdResponse;
 };

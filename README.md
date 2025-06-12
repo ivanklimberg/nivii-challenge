@@ -68,4 +68,4 @@ This will:
 ### Infrastructure
 
 - I would create multiple instances of the API and to ensure uptime for multiple users of the API, I would put them behind an **AWS Elastic Load Balancer**. All requests should be done to that ELB, ensuring that all requests are managed by the ELB and sent to different instance based on the available RAM and CPU usage.
-- The database wouldn't be inside a container but on an **AWS Relational Database Service** with autoscaling and **Slow Query Log** enabled to improve the queries that are causing our database to fill it's RAM.
+- The database wouldn't be inside a container but on an **AWS Relational Database Service** with autoscaling and **Slow Query Log** enabled to improve the queries that are causing our database to have CPU/RAM peaks.

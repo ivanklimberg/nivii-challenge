@@ -1,4 +1,3 @@
-import React from "react";
 import { Spin, Typography } from "antd";
 import { Typewriter } from "react-simple-typewriter";
 

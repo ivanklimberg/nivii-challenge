@@ -7,5 +7,6 @@ CREATE TABLE question_history(
     json_response JSON NULL,
     description VARCHAR(3000) NULL,
     chart_type VARCHAR(12) NULL,
+    chart_config JSON NULL,
     created_at DATETIME NOT NULL DEFAULT NOW()
 );

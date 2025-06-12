@@ -8,8 +8,8 @@ questions_history_repository = QuestionHistoryRepository()
 
 @questions_history_blueprint.route("", methods=["GET"])
 def get_question_history():
-    page = request.args.get('page', 1)
-    page_size = request.args.get('page_size', 20)
+    page = int(request.args.get('page', 1))
+    page_size = int(request.args.get('page_size', 20))
 
     question_history_data = questions_history_repository.get_question_history(page, page_size)
 
